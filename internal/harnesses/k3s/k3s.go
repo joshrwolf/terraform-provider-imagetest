@@ -41,6 +41,7 @@ func New(id string, opts ...Option) (types.Harness, error) {
 	opt := &Opt{
 		Image:         K3sImage,
 		Cni:           true,
+		CoreDNS:       true,
 		MetricsServer: false,
 		Traefik:       false,
 		// Default to the bare minimum k3s needs to run properly
@@ -324,6 +325,9 @@ disable:
 {{- end }}
 {{- if not .MetricsServer }}
   - metrics-server
+{{- end }}
+{{- if not .CoreDNS }}
+  - coredns
 {{- end }}
 {{- if not .Cni }}
 flannel-backend: none

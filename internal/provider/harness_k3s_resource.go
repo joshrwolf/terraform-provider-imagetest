@@ -51,6 +51,7 @@ type HarnessK3sResourceModel struct {
 	DisableCni           types.Bool                               `tfsdk:"disable_cni"`
 	DisableTraefik       types.Bool                               `tfsdk:"disable_traefik"`
 	DisableMetricsServer types.Bool                               `tfsdk:"disable_metrics_server"`
+	DisableCoredns       types.Bool                               `tfsdk:"disable_coredns"`
 	Registries           map[string]RegistryResourceModel         `tfsdk:"registries"`
 	Networks             map[string]ContainerResourceModelNetwork `tfsdk:"networks"`
 	Sandbox              types.Object                             `tfsdk:"sandbox"`
@@ -113,6 +114,12 @@ func (r *HarnessK3sResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Optional:    true,
 				Computed:    true,
 				Default:     booldefault.StaticBool(true),
+			},
+			"disable_coredns": schema.BoolAttribute{
+				Description: "When true, the builtin coredns will be disabled.",
+				Optional:    true,
+				Computed:    true,
+				Default:     booldefault.StaticBool(false),
 			},
 			"image": schema.StringAttribute{
 				Description: "The full image reference to use for the k3s container.",
@@ -233,6 +240,7 @@ func (r *HarnessK3sResource) Create(ctx context.Context, req resource.CreateRequ
 		k3s.WithCniDisabled(data.DisableCni.ValueBool()),
 		k3s.WithTraefikDisabled(data.DisableTraefik.ValueBool()),
 		k3s.WithMetricsServerDisabled(data.DisableMetricsServer.ValueBool()),
+		k3s.WithCoreDNSDisabled(data.DisableCoredns.ValueBool()),
 	}
 
 	if !data.Sandbox.IsNull() {

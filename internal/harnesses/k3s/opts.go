@@ -13,6 +13,7 @@ type Opt struct {
 	Image         string
 	Traefik       bool
 	Cni           bool
+	CoreDNS       bool
 	MetricsServer bool
 	Networks      []string
 	Resources     provider.ContainerResourcesRequest
@@ -205,6 +206,13 @@ func WithTraefikDisabled(disabled bool) Option {
 func WithMetricsServerDisabled(disabled bool) Option {
 	return func(opt *Opt) error {
 		opt.MetricsServer = !disabled
+		return nil
+	}
+}
+
+func WithCoreDNSDisabled(disabled bool) Option {
+	return func(opt *Opt) error {
+		opt.CoreDNS = !disabled
 		return nil
 	}
 }
