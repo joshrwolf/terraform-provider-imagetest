@@ -291,7 +291,8 @@ func (p *ImageTestProvider) Schema(ctx context.Context, req provider.SchemaReque
 							"kubeconfig": schema.StringAttribute{
 								Description: "The relative or absolute path on the host to the source directory to mount.",
 								Required:    true,
-							}},
+							},
+						},
 					},
 				},
 			},
@@ -336,6 +337,7 @@ func (p *ImageTestProvider) Resources(_ context.Context) []func() resource.Resou
 		NewHarnessClusterResource,
 		NewHarnessContainerResource,
 		NewHarnessDockerResource,
+		NewHarnessMachineResource,
 	}
 }
 
